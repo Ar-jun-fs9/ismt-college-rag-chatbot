@@ -1,5 +1,20 @@
 <div align="center">
 
+> ⚠️ **IMPORTANT NOTICE**  
+> All chatbot responses are **based on web pages crawled from the ISMT College website on _29 August 2025_**.  
+> If you are using this repository **a month or more after that date**, please **re-run the crawler** to update the data with the latest information.
+>
+> 🧩 To refresh the dataset, execute:
+>
+> ```bash
+> python crawl_site.py
+> ```
+>
+> This ensures the chatbot always reflects the **most current ISMT College content**.
+
+</div>
+<div align="center">
+
 # 🎓 ISMT College RAG Chatbot
 
 **A Retrieval-Augmented Generation (RAG) chatbot system for ISMT College powered by Groq Cloud API and LLaMA-3.1-8B-Instant — with clickable source links for verified answers.**
