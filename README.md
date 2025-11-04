@@ -13,6 +13,9 @@
 _Built for lightning-fast and accurate answers about ISMT College — with clickable, verified source citations.  
 (To view the sources, uncomment the citation code in `homepage.js`.)_
 
+![Homepage](assets/ismt_homepage.png)
+![chatbot ](assets/ismt_chatbot.png)
+
 </div>
 
 ---
