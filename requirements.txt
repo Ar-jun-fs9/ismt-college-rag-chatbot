@@ -1,0 +1,8 @@
+flask
+chromadb
+sentence-transformers
+tqdm
+requests
+beautifulsoup4
+openai
+python-dotenv
