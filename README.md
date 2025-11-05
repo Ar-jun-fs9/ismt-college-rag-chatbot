@@ -78,7 +78,7 @@ ismt-college-rag-chatbot/
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ismt-college-rag-chatbot.git
+git clone https://github.com/Ar-jun-fs9/ismt-college-rag-chatbot.git
 cd ismt-college-rag-chatbot
 
 # Install Python dependencies
