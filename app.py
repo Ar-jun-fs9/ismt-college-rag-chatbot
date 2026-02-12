@@ -21,8 +21,10 @@ def api_query():
     return jsonify(result)
 
 
+# For local development, you can use the following line to run the Flask app so uncomment it on local mahine.
 # if __name__ == "__main__":
 #     app.run()
 
+# For deployment on platforms like Render, use the following line to run the Flask app with Gunicorn and comment it if run in local machine.
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=False)
+    app.run(host="0.0.0.0", port=5000)
