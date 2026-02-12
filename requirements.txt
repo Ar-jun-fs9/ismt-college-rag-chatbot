@@ -6,4 +6,4 @@ requests
 beautifulsoup4
 openai
 python-dotenv
-gunicorn // used for deployment on platforms render 
+gunicorn # used for deployment on platforms render 
