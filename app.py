@@ -27,4 +27,5 @@ def api_query():
 
 # For deployment on platforms like Render, use the following line to run the Flask app with Gunicorn and comment it if run in local machine.
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))  # Use Render's assigned port if available
+    app.run(host="0.0.0.0", port=port)
