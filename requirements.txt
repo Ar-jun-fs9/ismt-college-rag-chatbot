@@ -1,5 +1,6 @@
 flask
-chromadb
+# chromadb
+chromadb==1.3.0
 sentence-transformers
 tqdm
 requests
