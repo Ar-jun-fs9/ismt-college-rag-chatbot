@@ -1,7 +1,7 @@
 gunicorn
 flask
 chromadb
-sentence-transformers
+# sentence-transformers
 tqdm
 requests
 beautifulsoup4
