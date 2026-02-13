@@ -1,3 +1,11 @@
+# Important Notice: if you are running this code locally, please comment version 1 and uncomment version 2.
+
+# Version 1 is optimized for deployment environments where you want faster startup and don't want to load the SentenceTransformer model.
+
+# Version 2 includes the SentenceTransformer for local testing and development, but it will increase startup time due to model loading.
+
+# version 1 for deployment
+
 import os
 from dotenv import load_dotenv
 import chromadb
@@ -38,7 +46,9 @@ def initialize_components():
     client = chromadb.PersistentClient(path=PERSIST_DIR)
     try:
         collection = client.get_collection(CHROMA_COLLECTION)
-        print(f"[OK] Found collection '{CHROMA_COLLECTION}' with {collection.count()} items.")
+        print(
+            f"[OK] Found collection '{CHROMA_COLLECTION}' with {collection.count()} items."
+        )
     except Exception:
         print(f"[WARN] Collection '{CHROMA_COLLECTION}' not found, creating a new one.")
         collection = client.create_collection(CHROMA_COLLECTION)
@@ -72,9 +82,7 @@ def retrieve(query: str, top_k: int = TOP_K):
 
     # Chroma can accept raw text queries with precomputed embeddings
     results = collection.query(
-        query_texts=[query],
-        n_results=top_k,
-        include=["documents", "metadatas"]
+        query_texts=[query], n_results=top_k, include=["documents", "metadatas"]
     )
 
     docs = results.get("documents", [[]])[0]
@@ -150,7 +158,12 @@ def generate_answer(question: str, use_llm: bool = True):
 
     if not use_llm:
         # Return raw retrieval results
-        context = "\n".join([f"[{r['meta'].get('url', 'unknown')}] {r['text'][:200]}..." for r in retrieved[:TOP_K]])
+        context = "\n".join(
+            [
+                f"[{r['meta'].get('url', 'unknown')}] {r['text'][:200]}..."
+                for r in retrieved[:TOP_K]
+            ]
+        )
         return {
             "answer": f"📋 Retrieved information:\n\n{context}\n\n(LLM disabled)",
             "sources": sources,
@@ -171,6 +184,9 @@ if __name__ == "__main__":
         res = generate_answer(q)
         print("\nAnswer:", res["answer"])
         print("Sources:", ", ".join(res["sources"]), "\n")
+
+
+# version 2 to run locally
 
 
 # import os
