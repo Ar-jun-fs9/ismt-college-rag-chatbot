@@ -3,7 +3,7 @@ import json
 from dotenv import load_dotenv
 import chromadb
 from chromadb.config import Settings
-from sentence_transformers import SentenceTransformer
+# from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 
 # Load environment variables from .env file
@@ -36,7 +36,7 @@ def initialize_components():
     # Only initialize if not already done
     if not _components_initialized:
         print(f"[INFO] Loading embedding model: {EMBED_MODEL} ...")
-        sbert = SentenceTransformer(EMBED_MODEL)
+        # sbert = SentenceTransformer(EMBED_MODEL)
 
         print(f"[INFO] Connecting to ChromaDB at '{PERSIST_DIR}' ...")
         client = chromadb.PersistentClient(path=PERSIST_DIR)
