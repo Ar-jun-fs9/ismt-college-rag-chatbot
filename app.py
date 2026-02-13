@@ -22,5 +22,9 @@ def api_query():
 
 
 # # For local development, you can use the following line to run the Flask app so uncomment it on local mahine.
+# if __name__ == "__main__":
+#     app.run()
+
+# comment the below line and uncomment the above line to run the Flask app on a local machine.
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
