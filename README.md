@@ -1,62 +1,62 @@
 <div align="center">
 
-> ⚠️ **IMPORTANT DEPLOYMENT & LOCAL SETUP NOTICE**  
-> This project contains **two versions of the embedding setup inside `rag_backend.py`**.
+ ⚠️ **IMPORTANT DEPLOYMENT & LOCAL SETUP NOTICE**  
+ This project contains **two versions of the embedding setup inside `rag_backend.py`**.
 
 </div>
 
-> 🔹 **Version 1 (Deployment Optimized)**  
-> Optimized for cloud deployment environments (e.g., Railway).  
-> - Does **NOT** load the `SentenceTransformer` model.  
-> - Faster startup time.  
-> - Lower memory usage.  
-> - Recommended for production and free-tier hosting.
->
-> 🔹 **Version 2 (Local Development Mode)**  
-> Includes `SentenceTransformer` for generating embeddings locally.  
-> - Slower startup due to model loading.  
-> - Higher memory usage.  
-> - Recommended only for local testing and development.
->
-> ---
->
-> 🖥 **If you are running this project locally:**
->
-> 1️. In `rag_backend.py`  
-> - Comment **Version 1**  
-> - Uncomment **Version 2**
->
-> 2️. In `requirements.txt`  
-> - Uncomment:
->
-> ```bash
-> sentence-transformers
-> ```
->
-> 3️. Then install dependencies:
->
-> ```bash
-> pip install -r requirements.txt
-> ```
->
-> This ensures the embedding model loads correctly for local testing.
+ 🔹 **Version 1 (Deployment Optimized)**  
+ Optimized for cloud deployment environments (e.g., Railway).  
+ - Does **NOT** load the `SentenceTransformer` model.  
+ - Faster startup time.  
+ - Lower memory usage.  
+ - Recommended for production and free-tier hosting.
+
+ 🔹 **Version 2 (Local Development Mode)**  
+ Includes `SentenceTransformer` for generating embeddings locally.  
+ - Slower startup due to model loading.  
+ - Higher memory usage.  
+ - Recommended only for local testing and development.
+
+ ---
+
+ 🖥 **If you are running this project locally:**
+
+ 1️. In `rag_backend.py`  
+ - Comment **Version 1**  
+ - Uncomment **Version 2**
+
+ 2️. In `requirements.txt`  
+ - Uncomment:
+
+ ```bash
+ sentence-transformers
+ ```
+
+ 3️. Then install dependencies:
+
+ ```bash
+ pip install -r requirements.txt
+ ```
+
+ This ensures the embedding model loads correctly for local testing.
 
 
 ---
 
 <div align="center">
 
-> ⚠️ **IMPORTANT NOTICE**  
-> All chatbot responses are **based on web pages crawled from the ISMT College website on _29 August 2025_**.  
-> If you are using this repository **a month or more after that date**, please **re-run the crawler** to update the data with the latest information.
->
-> 🧩 To refresh the dataset, execute:
->
-> ```bash
-> python crawl_site.py
-> ```
->
-> This ensures the chatbot always reflects the **most current ISMT College content**.
+ ⚠️ **IMPORTANT NOTICE**  
+ All chatbot responses are **based on web pages crawled from the ISMT College website on _29 August 2025_**.  
+ If you are using this repository **a month or more after that date**, please **re-run the crawler** to update the data with the latest information.
+
+ 🧩 To refresh the dataset, execute:
+
+ ```bash
+ python crawl_site.py
+ ```
+
+ This ensures the chatbot always reflects the **most current ISMT College content**.
 
 </div>
 <div align="center">
