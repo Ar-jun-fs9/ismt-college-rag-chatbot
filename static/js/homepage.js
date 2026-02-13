@@ -4,10 +4,7 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     e.preventDefault();
     const target = document.querySelector(this.getAttribute("href"));
     if (target) {
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   });
 });
@@ -21,15 +18,18 @@ const form = document.getElementById("askForm");
 const input = document.getElementById("question");
 const sendBtn = document.getElementById("send-btn");
 
-chatbotButton.addEventListener("click", function () {
+// Open chatbot popup
+chatbotButton.addEventListener("click", () => {
   chatbotPopup.classList.remove("hidden");
   setTimeout(() => {
     chatbotPopup.classList.remove("scale-0");
     chatbotPopup.classList.add("scale-100");
+    input.focus();
   }, 10);
 });
 
-cancelChatbot.addEventListener("click", function () {
+// Close chatbot popup
+cancelChatbot.addEventListener("click", () => {
   chatbotPopup.classList.add("scale-0");
   setTimeout(() => {
     chatbotPopup.classList.add("hidden");
@@ -37,18 +37,14 @@ cancelChatbot.addEventListener("click", function () {
 });
 
 // Close popup when clicking outside
-document.addEventListener("click", function (event) {
-  if (
-    !chatbotButton.contains(event.target) &&
-    !chatbotPopup.contains(event.target)
-  ) {
+document.addEventListener("click", (event) => {
+  if (!chatbotButton.contains(event.target) && !chatbotPopup.contains(event.target)) {
     chatbotPopup.classList.add("scale-0");
-    setTimeout(() => {
-      chatbotPopup.classList.add("hidden");
-    }, 300);
+    setTimeout(() => chatbotPopup.classList.add("hidden"), 300);
   }
 });
 
+// Append messages to chat
 function appendMessage(role, text, isHtml = false) {
   const wrap = document.createElement("div");
   wrap.className = role === "user" ? "text-right" : "text-left";
@@ -59,17 +55,15 @@ function appendMessage(role, text, isHtml = false) {
       ? "inline-block bg-blue-600 text-white p-3 rounded-lg max-w-[80%] text-sm"
       : "inline-block bg-gray-100 border p-3 rounded-lg max-w-[80%] text-sm";
 
-  if (isHtml) {
-    bubble.innerHTML = text.replace(/\n/g, "<br>");
-  } else {
-    bubble.textContent = text;
-  }
+  if (isHtml) bubble.innerHTML = text.replace(/\n/g, "<br>");
+  else bubble.textContent = text;
 
   wrap.appendChild(bubble);
   chat.appendChild(wrap);
   chat.scrollTop = chat.scrollHeight;
 }
 
+// Set loading button state
 function setLoading(isLoading) {
   if (isLoading) {
     sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
@@ -80,6 +74,25 @@ function setLoading(isLoading) {
   }
 }
 
+// Create inline typing dots (no bubble)
+function createTypingDots() {
+  const wrap = document.createElement("div");
+  wrap.className = "text-left"; // align left
+
+  // Add dots inline
+  wrap.innerHTML = `
+    <span class="typing-dot">.</span>
+    <span class="typing-dot">.</span>
+    <span class="typing-dot">.</span>
+  `;
+
+  chat.appendChild(wrap);
+  chat.scrollTop = chat.scrollHeight;
+
+  return wrap; // return element to remove later
+}
+
+// Handle form submission
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const q = input.value.trim();
@@ -87,7 +100,9 @@ form.addEventListener("submit", async (e) => {
 
   appendMessage("user", q);
   input.value = "";
-  appendMessage("assistant", "🤖 Generating answer...");
+
+  // Show inline typing dots
+  const typingDots = createTypingDots();
   setLoading(true);
 
   try {
@@ -99,31 +114,15 @@ form.addEventListener("submit", async (e) => {
 
     const data = await res.json();
 
-    // Remove loading message
-    chat.removeChild(chat.lastChild);
+    // Remove typing dots
+    chat.removeChild(typingDots);
 
-    if (data.error) {
-      appendMessage("assistant", `❌ Error: ${data.error}`);
-    } else {
-      appendMessage("assistant", data.answer || "No answer provided.");
-
-      //if (data.sources && data.sources.length) {
-      // const sourcesHtml = data.sources.filter(Boolean).join(", ");
-      // appendMessage("assistant", "📚 Sources: " + sourcesHtml, true);
-      //}
-    }
+    if (data.error) appendMessage("assistant", `❌ Error: ${data.error}`);
+    else appendMessage("assistant", data.answer || "No answer provided.");
   } catch (err) {
-    // Remove loading message
-    chat.removeChild(chat.lastChild);
+    chat.removeChild(typingDots);
     appendMessage("assistant", `❌ Failed to get answer: ${err.message}`);
   } finally {
     setLoading(false);
   }
-});
-
-// Auto-focus input when popup is opened
-chatbotButton.addEventListener("click", () => {
-  setTimeout(() => {
-    input.focus();
-  }, 350);
 });
