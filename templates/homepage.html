@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -21,6 +21,13 @@
       tailwind.config = {
         theme: {
           extend: {
+            screens: {
+              'xs': '380px',
+              'sm': '640px',
+              'md': '768px',
+              'lg': '1024px',
+              'xl': '1280px',
+            },
             fontFamily: {
               inter: ["Inter", "sans-serif"],
             },
@@ -70,64 +77,66 @@
   <body class="font-inter bg-white">
     <!-- Navigation Header -->
     <nav class="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-          <div class="flex items-center">
+      <div class="max-w-7xl mx-auto px-2 sm:px-4">
+        <div class="flex justify-between h-14 sm:h-16">
+          <div class="flex items-center min-w-0">
             <div class="flex-shrink-0 flex items-center">
               <div
-                class="w-10 h-10 bg-btn-gradient rounded-lg flex items-center justify-center shadow-lg"
+                class="w-8 h-8 sm:w-10 sm:h-10 bg-btn-gradient rounded-lg flex items-center justify-center shadow-lg"
               >
-                <span class="text-white font-bold text-xl">IS</span>
+                <span class="text-white font-bold text-sm sm:text-xl">IS</span>
               </div>
-              <div class="ml-3">
+              <div class="ml-2 sm:ml-3 min-w-0">
                 <h1
-                  class="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+                  class="text-sm sm:text-lg md:text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent truncate"
                 >
                   ISMT College
                 </h1>
-                <p class="text-xs text-gray-600">
+                <p
+                  class="text-[8px] sm:text-xs text-gray-600 hidden lg:block truncate"
+                >
                   International School of Management & Technology
                 </p>
               </div>
             </div>
           </div>
 
-          <div class="hidden md:flex items-center space-x-8">
+          <div class="hidden lg:flex items-center space-x-8">
             <a
               href="#home"
-              class="text-gray-700 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium"
+              class="text-gray-700 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium text-sm"
             >
               Home
             </a>
             <a
               href="#about"
-              class="text-gray-700 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium"
+              class="text-gray-700 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium text-sm"
             >
               About
             </a>
             <a
               href="#programs"
-              class="text-gray-700 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium"
+              class="text-gray-700 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium text-sm"
             >
               Programs
             </a>
             <a
               href="#admissions"
-              class="text-gray-700 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium"
+              class="text-gray-700 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium text-sm"
             >
               Admissions
             </a>
             <a
               href="#contact"
-              class="text-gray-700 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium"
+              class="text-gray-700 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium text-sm"
             >
               Contact
             </a>
           </div>
 
-          <div class="flex items-center space-x-4">
+          <div class="flex items-center">
             <button
-              class="bg-btn-gradient text-white px-6 py-2 rounded-lg hover:bg-btn-gradient-hover transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              class="bg-btn-gradient text-white px-3 py-1.5 sm:px-6 sm:py-2 rounded-lg hover:bg-btn-gradient-hover transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-xs sm:text-sm whitespace-nowrap"
             >
               Apply Now
             </button>
@@ -810,13 +819,16 @@
     </footer>
 
     <!-- Chatbot Button -->
-    <div id="chatbot-button" class="fixed bottom-6 right-6 z-50">
+    <div
+      id="chatbot-button"
+      class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50"
+    >
       <button
-        class="bg-btn-gradient text-white w-16 h-16 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center group transform hover:scale-110 animate-pulse"
+        class="bg-btn-gradient text-white w-12 h-12 sm:w-16 sm:h-16 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 flex items-center justify-center group transform hover:scale-110 animate-pulse"
       >
-        <i class="fas fa-comments text-2xl"></i>
+        <i class="fas fa-comments text-xl sm:text-2xl"></i>
         <div
-          class="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold animate-bounce"
+          class="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-5 h-5 sm:w-6 sm:h-6 bg-red-500 rounded-full flex items-center justify-center text-xs font-bold animate-bounce"
         >
           !
         </div>
@@ -826,26 +838,26 @@
     <!-- Chatbot Popup -->
     <div
       id="chatbot-popup"
-      class="fixed bottom-24 right-6 w-96 h-[499px] bg-white rounded-2xl shadow-2xl z-50 hidden transform transition-all duration-300 scale-0"
+      class="fixed bottom-20 right-2 sm:bottom-24 sm:right-6 w-[calc(100vw-1rem)] sm:w-80 md:w-96 h-[55dvh] sm:h-[450px] md:h-[499px] bg-white rounded-2xl shadow-2xl z-50 hidden transform transition-all duration-300 scale-0 max-w-sm"
     >
       <div class="flex flex-col h-full">
         <!-- Header -->
         <div
-          class="bg-btn-gradient text-white p-4 rounded-t-2xl flex items-center justify-between"
+          class="bg-btn-gradient text-white p-3 sm:p-4 rounded-t-2xl flex items-center justify-between flex-shrink-0"
         >
           <div class="flex items-center">
             <div
-              class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3"
+              class="w-7 h-7 sm:w-8 sm:h-8 bg-white/20 rounded-full flex items-center justify-center mr-2 sm:mr-3"
             >
-              <span class="text-sm font-bold">IS</span>
+              <span class="text-xs sm:text-sm font-bold">IS</span>
             </div>
             <div>
-              <h3 class="font-semibold text-sm">ISMT Assistant</h3>
-              <p class="text-xs text-blue-100">Powered by AI</p>
+              <h3 class="font-semibold text-xs sm:text-sm">ISMT Assistant</h3>
+              <p class="text-[10px] sm:text-xs text-blue-100">Powered by AI</p>
             </div>
           </div>
-          <div class="flex items-center space-x-2">
-            <div class="text-xs text-blue-100">
+          <div class="flex items-center space-x-1 sm:space-x-2">
+            <div class="text-[10px] sm:text-xs text-blue-100 hidden sm:block">
               <i class="fas fa-circle text-green-400 mr-1"></i>Online
             </div>
             <button
@@ -853,37 +865,43 @@
               class="text-white hover:text-blue-200 transition-colors duration-300 p-1 hover:bg-white/10 rounded"
               title="Cancel"
             >
-              <i class="fas fa-times"></i>
+              <i class="fas fa-times text-sm sm:text-base"></i>
             </button>
           </div>
         </div>
 
         <!-- Chat Messages -->
-        <div id="chat" class="flex-1 p-4 overflow-y-auto space-y-3 bg-white">
-          <div class="text-center text-gray-500 text-sm">
-            <i class="fas fa-comments mb-2"></i>
+        <div
+          id="chat"
+          class="flex-1 p-2 sm:p-4 overflow-y-auto space-y-2 sm:space-y-3 bg-white min-h-0"
+        >
+          <div class="text-center text-gray-500 text-xs sm:text-sm py-4">
+            <i class="fas fa-comments mb-2 text-lg sm:text-xl"></i>
             <p>Ask me anything about ISMT College!</p>
-            <p class="text-xs mt-1">
+            <p class="text-[10px] sm:text-xs mt-1">
               I can help with admissions, courses, fees, and more.
             </p>
           </div>
         </div>
 
         <!-- Input Form -->
-        <form id="askForm" class="p-3 border-t bg-white rounded-b-lg">
+        <form
+          id="askForm"
+          class="p-2 sm:p-3 border-t bg-white rounded-b-lg flex-shrink-0"
+        >
           <div class="flex gap-2">
             <input
               id="question"
-              class="flex-1 p-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="flex-1 p-2 text-xs sm:text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Ask about ISMT..."
               autocomplete="off"
             />
             <button
               type="submit"
-              class="bg-btn-gradient text-white p-2 rounded-lg hover:bg-btn-gradient-hover transition duration-200"
+              class="bg-btn-gradient text-white p-2 sm:p-2 rounded-lg hover:bg-btn-gradient-hover transition duration-200"
               id="send-btn"
             >
-              <i class="fas fa-paper-plane"></i>
+              <i class="fas fa-paper-plane text-sm"></i>
             </button>
           </div>
         </form>

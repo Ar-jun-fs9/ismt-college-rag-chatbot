@@ -21,6 +21,10 @@ const sendBtn = document.getElementById("send-btn");
 // Open chatbot popup
 chatbotButton.addEventListener("click", () => {
   chatbotPopup.classList.remove("hidden");
+  // Add body class on mobile to prevent scrolling
+  if (window.innerWidth <= 640) {
+    document.body.classList.add("chatbot-open");
+  }
   setTimeout(() => {
     chatbotPopup.classList.remove("scale-0");
     chatbotPopup.classList.add("scale-100");
@@ -31,6 +35,7 @@ chatbotButton.addEventListener("click", () => {
 // Close chatbot popup
 cancelChatbot.addEventListener("click", () => {
   chatbotPopup.classList.add("scale-0");
+  document.body.classList.remove("chatbot-open");
   setTimeout(() => {
     chatbotPopup.classList.add("hidden");
   }, 300);
@@ -40,7 +45,24 @@ cancelChatbot.addEventListener("click", () => {
 document.addEventListener("click", (event) => {
   if (!chatbotButton.contains(event.target) && !chatbotPopup.contains(event.target)) {
     chatbotPopup.classList.add("scale-0");
+    document.body.classList.remove("chatbot-open");
     setTimeout(() => chatbotPopup.classList.add("hidden"), 300);
+  }
+});
+
+// Close on escape key
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !chatbotPopup.classList.contains("hidden")) {
+    chatbotPopup.classList.add("scale-0");
+    document.body.classList.remove("chatbot-open");
+    setTimeout(() => chatbotPopup.classList.add("hidden"), 300);
+  }
+});
+
+// Handle window resize to reset body class
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 640) {
+    document.body.classList.remove("chatbot-open");
   }
 });
 
@@ -50,10 +72,11 @@ function appendMessage(role, text, isHtml = false) {
   wrap.className = role === "user" ? "text-right" : "text-left";
 
   const bubble = document.createElement("div");
+  const isMobile = window.innerWidth <= 640;
   bubble.className =
     role === "user"
-      ? "inline-block bg-blue-600 text-white p-3 rounded-lg max-w-[80%] text-sm"
-      : "inline-block bg-gray-100 border p-3 rounded-lg max-w-[80%] text-sm";
+      ? "inline-block bg-blue-600 text-white p-2 sm:p-3 rounded-lg max-w-[85%] sm:max-w-[80%] text-xs sm:text-sm"
+      : "inline-block bg-gray-100 border p-2 sm:p-3 rounded-lg max-w-[85%] sm:max-w-[80%] text-xs sm:text-sm";
 
   if (isHtml) bubble.innerHTML = text.replace(/\n/g, "<br>");
   else bubble.textContent = text;

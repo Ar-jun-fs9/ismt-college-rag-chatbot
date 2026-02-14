@@ -19,3 +19,68 @@ body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", 
   40% { opacity: 1; }
 }
 
+/* Mobile chatbot fixes */
+      @media (max-width: 640px) {
+        #chatbot-popup {
+          max-width: calc(100vw - 1rem) !important;
+          width: calc(100vw - 1rem) !important;
+          left: 50% !important;
+          transform: translateX(-50%) scale(0) !important;
+        }
+        #chatbot-popup:not(.hidden) {
+          transform: translateX(-50%) scale(1) !important;
+        }
+        #chatbot-button {
+          bottom: 1rem !important;
+          right: 1rem !important;
+        }
+      }
+      /* Prevent body scroll when chatbot is open on mobile */
+      body.chatbot-open {
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+      }
+      /* Smooth scrolling for chat messages */
+      #chat::-webkit-scrollbar {
+        width: 4px;
+      }
+      #chat::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+      #chat::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+      }
+      #chat::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+      /* Typing dots animation */
+      .typing-dot {
+        display: inline-block;
+        color: #667eea;
+        font-size: 24px;
+        line-height: 1;
+        margin-right: 2px;
+        animation: typingBounce 1.4s infinite ease-in-out both;
+      }
+      .typing-dot:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      .typing-dot:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+      .typing-dot:nth-child(3) {
+        animation-delay: 0s;
+      }
+      @keyframes typingBounce {
+        0%,
+        80%,
+        100% {
+          transform: scale(0);
+        }
+        40% {
+          transform: scale(1);
+        }
+      }
