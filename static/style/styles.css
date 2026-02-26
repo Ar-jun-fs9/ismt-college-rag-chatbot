@@ -17,31 +17,8 @@ body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", 
   font-weight: bold;
   font-size: 12px;
   margin-right: 2px;
-  animation: dotSequence 2s infinite;
-}
-
-.typing-dots .dot:nth-child(1) {
-  animation-delay: 0s;
-}
-
-.typing-dots .dot:nth-child(2) {
-  animation-delay: 0.5s;
-}
-
-.typing-dots .dot:nth-child(3) {
-  animation-delay: 1s;
-}
-
-@keyframes dotSequence {
-  0% {
-    opacity: 0;
-  }
-  10%, 80% {
-    opacity: 1;
-  }
-  90%, 100% {
-    opacity: 0;
-  }
+  opacity: 0;
+  transition: opacity 0.1s ease;
 }
 
 /* Mobile chatbot fixes */
@@ -81,36 +58,13 @@ body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", 
       #chat::-webkit-scrollbar-thumb:hover {
         background: #555;
       }
-      /* Typing dots animation with text - smooth sequential loading */
+      /* Typing dots animation with text - controlled by JavaScript */
       .typing-dots .dot {
         display: inline-block;
         color: #667eea;
         font-size: 12px;
         line-height: 1;
         margin-right: 2px;
-        animation: dotSequence 2s infinite;
-      }
-
-      .typing-dots .dot:nth-child(1) {
-        animation-delay: 0s;
-      }
-
-      .typing-dots .dot:nth-child(2) {
-        animation-delay: 0.5s;
-      }
-
-      .typing-dots .dot:nth-child(3) {
-        animation-delay: 1s;
-      }
-
-      @keyframes dotSequence {
-        0% {
-          opacity: 0;
-        }
-        10%, 80% {
-          opacity: 1;
-        }
-        90%, 100% {
-          opacity: 0;
-        }
+        opacity: 0;
+        transition: opacity 0.1s ease;
       }

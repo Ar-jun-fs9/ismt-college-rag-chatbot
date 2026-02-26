@@ -102,13 +102,30 @@ function createTypingIndicator() {
   const wrap = document.createElement("div");
   wrap.className = "text-left";
 
-  // Add text with animated dots
+  // Add text with animated dots using JavaScript for precise control
   wrap.innerHTML = `
     <span class="typing-text">AI is typing</span><span class="typing-dots"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
   `;
 
   chat.appendChild(wrap);
   chat.scrollTop = chat.scrollHeight;
+
+  // Animate dots using JavaScript for precise control
+  const dots = wrap.querySelectorAll('.typing-dots .dot');
+  let dotCount = 0;
+  
+  const interval = setInterval(() => {
+    // Show dots based on count (1, 2, or 3)
+    dots.forEach((dot, index) => {
+      dot.style.opacity = index < dotCount ? '1' : '0';
+    });
+    
+    // Cycle: 1 -> 2 -> 3 -> 0 -> repeat
+    dotCount = (dotCount + 1) % 4;
+  }, 400); // Change every 400ms
+
+  // Store interval ID for cleanup
+  wrap.dataset.intervalId = interval;
 
   return wrap; // return element to remove later
 }
@@ -135,12 +152,16 @@ form.addEventListener("submit", async (e) => {
 
     const data = await res.json();
 
-    // Remove typing indicator
+    // Remove typing indicator and stop animation
+    const intervalId = typingIndicator.dataset.intervalId;
+    if (intervalId) clearInterval(parseInt(intervalId));
     chat.removeChild(typingIndicator);
 
     if (data.error) appendMessage("assistant", `❌ Error: ${data.error}`);
     else appendMessage("assistant", data.answer || "No answer provided.");
   } catch (err) {
+    const intervalId = typingIndicator.dataset.intervalId;
+    if (intervalId) clearInterval(parseInt(intervalId));
     chat.removeChild(typingIndicator);
     appendMessage("assistant", `❌ Failed to get answer: ${err.message}`);
   } finally {
