@@ -97,16 +97,14 @@ function setLoading(isLoading) {
   }
 }
 
-// Create inline typing dots (no bubble)
-function createTypingDots() {
+// Create inline typing indicator with text
+function createTypingIndicator() {
   const wrap = document.createElement("div");
-  wrap.className = "text-left"; // align left
+  wrap.className = "text-left";
 
-  // Add dots inline
+  // Add text with animated dots
   wrap.innerHTML = `
-    <span class="typing-dot">.</span>
-    <span class="typing-dot">.</span>
-    <span class="typing-dot">.</span>
+    <span class="typing-text">AI is typing</span><span class="typing-dots"><span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span>
   `;
 
   chat.appendChild(wrap);
@@ -124,8 +122,8 @@ form.addEventListener("submit", async (e) => {
   appendMessage("user", q);
   input.value = "";
 
-  // Show inline typing dots
-  const typingDots = createTypingDots();
+  // Show typing indicator
+  const typingIndicator = createTypingIndicator();
   setLoading(true);
 
   try {
@@ -137,13 +135,13 @@ form.addEventListener("submit", async (e) => {
 
     const data = await res.json();
 
-    // Remove typing dots
-    chat.removeChild(typingDots);
+    // Remove typing indicator
+    chat.removeChild(typingIndicator);
 
     if (data.error) appendMessage("assistant", `❌ Error: ${data.error}`);
     else appendMessage("assistant", data.answer || "No answer provided.");
   } catch (err) {
-    chat.removeChild(typingDots);
+    chat.removeChild(typingIndicator);
     appendMessage("assistant", `❌ Failed to get answer: ${err.message}`);
   } finally {
     setLoading(false);
