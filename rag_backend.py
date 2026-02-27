@@ -134,7 +134,11 @@ def call_groq_api(user_query: str, context_text: str) -> str:
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
-        return f"Error: Groq API failed. Details: {str(e)}"
+        error_msg = str(e)
+        # Check for API key issues
+        if "401" in error_msg or "invalid_api_key" in error_msg.lower() or "Invalid API Key" in error_msg:
+            return "API key not configured. Add it or Please contact admin."
+        return f"Error: Groq API failed. Details: {error_msg}"
 
 
 # ---------------- MAIN PIPELINE ----------------
