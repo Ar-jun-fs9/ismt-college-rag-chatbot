@@ -47,7 +47,7 @@
 <div align="center">
 
  ⚠️ **IMPORTANT NOTICE**  
- All chatbot responses are **based on web pages crawled from the ISMT College website on _29 August 2025_**.  
+ All chatbot responses are **based on first web pages crawled from the ISMT College website on _29 August 2025_ and latest crawl on 22 February 2026**.  
  If you are using this repository **a month or more after that date**, please **re-run the crawler** to update the data with the latest information.
 
  🧩 To refresh the dataset, execute:
