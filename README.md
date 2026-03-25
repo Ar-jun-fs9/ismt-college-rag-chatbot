@@ -1,7 +1,11 @@
 <div align="center">
 
- ⚠️ **IMPORTANT DEPLOYMENT & LOCAL SETUP NOTICE**  
- This project contains **two versions of the embedding setup inside `rag_backend.py`**.
+⚠️ <strong>IMPORTANT DEPLOYMENT & LOCAL SETUP NOTICE</strong><br>
+This project contains <strong>two versions of the embedding setup inside <code>rag_backend.py</code></strong>.<br><br>
+
+🌐 <a href="https://ismt-college-rag-chatbot-production.up.railway.app/" target="_blank">
+Live Demo
+</a>
 
 </div>
 
