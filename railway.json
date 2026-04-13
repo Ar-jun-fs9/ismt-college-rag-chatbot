@@ -1,7 +1,6 @@
 {
   "build": {
-    "builder": "python",
-    "pythonDotenv": [".env"]
+    "builder": "python"
   },
   "deploy": {
     "numReplicas": 2,
