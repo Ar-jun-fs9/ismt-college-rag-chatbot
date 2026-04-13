@@ -1,54 +1,59 @@
+# Important Notice: if you are running this code locally, please comment version 1 and uncomment version 2.
+
+# Version 1 is optimized for deployment environments where you want faster startup and don't want to load the SentenceTransformer model.
+
+# Version 2 includes the SentenceTransformer for local testing and development, but it will increase startup time due to model loading.
+
+# version 1 for deployment
+
 import os
-import hashlib
-import time
 from dotenv import load_dotenv
 import chromadb
 from chromadb.config import Settings
-from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 
+# Load environment variables
 load_dotenv()
 
+# ---------------- CONFIG ----------------
 PERSIST_DIR = "chroma_db"
 CHROMA_COLLECTION = "ismt_docs"
-EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-TOP_K = 2
+TOP_K = 2  # Number of documents to retrieve
 
+# Groq API Configuration
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 GROQ_MODEL = "llama-3.1-8b-instant"
 
-sbert = None
+# ---------------- GLOBALS ----------------
 client = None
 collection = None
 groq_client = None
 _components_initialized = False
 llm_available = False
 
-_response_cache = {}
-MAX_CACHE_SIZE = 500
 
-def _get_cache_key(question):
-    return hashlib.md5(question.lower().strip().encode()).hexdigest()
-
+# ---------------- INITIALIZATION ----------------
 def initialize_components():
-    global sbert, client, collection, groq_client, _components_initialized, llm_available
+    """Initialize ChromaDB and Groq API client."""
+    global client, collection, groq_client, _components_initialized, llm_available
 
     if _components_initialized:
         return
 
-    print(f"[INFO] Loading embedding model: {EMBED_MODEL} ...")
-    sbert = SentenceTransformer(EMBED_MODEL)
-
+    # Connect to ChromaDB
     print(f"[INFO] Connecting to ChromaDB at '{PERSIST_DIR}' ...")
     client = chromadb.PersistentClient(path=PERSIST_DIR)
     try:
         collection = client.get_collection(CHROMA_COLLECTION)
-        print(f"[OK] Found collection '{CHROMA_COLLECTION}' with {collection.count()} items.")
+        print(
+            f"[OK] Found collection '{CHROMA_COLLECTION}' with {collection.count()} items."
+        )
     except Exception:
         print(f"[WARN] Collection '{CHROMA_COLLECTION}' not found, creating a new one.")
         collection = client.create_collection(CHROMA_COLLECTION)
 
+    # Initialize Groq API client
     print("[INFO] Initializing Groq API client...")
     if not GROQ_API_KEY:
         print("[ERROR] GROQ_API_KEY environment variable not set")
@@ -66,18 +71,18 @@ def initialize_components():
 
     _components_initialized = True
 
+
+# ---------------- RETRIEVAL ----------------
 def retrieve(query: str, top_k: int = TOP_K):
+    """
+    Retrieve top-k relevant documents from ChromaDB.
+    Uses pre-generated embeddings, no SentenceTransformer required.
+    """
     initialize_components()
 
-    if sbert is None or collection is None:
-        initialize_components()
-
-    if sbert is None or collection is None:
-        return []
-
-    q_vec = sbert.encode(query, convert_to_numpy=True, normalize_embeddings=True).tolist()
+    # Chroma can accept raw text queries with precomputed embeddings
     results = collection.query(
-        query_embeddings=[q_vec], n_results=top_k, include=["documents", "metadatas"]
+        query_texts=[query], n_results=top_k, include=["documents", "metadatas"]
     )
 
     docs = results.get("documents", [[]])[0]
@@ -86,18 +91,23 @@ def retrieve(query: str, top_k: int = TOP_K):
     return [{"text": d, "meta": m} for d, m in zip(docs, metas)]
 
 
+# ---------------- PROMPT BUILDER ----------------
 def build_prompt(question, retrieved):
+    """Build prompt text with retrieved context for Groq API."""
     context_blocks = []
     for r in retrieved[:TOP_K]:
         url = r["meta"].get("url", "unknown")
         text = r["text"].strip()
-        if len(text) > 150:
-            text = text[:150] + "..."
+        if len(text) > 200:
+            text = text[:200] + "..."
         context_blocks.append(f"[{url}] {text}")
+
     return "\n".join(context_blocks)
 
 
+# ---------------- GROQ API CALL ----------------
 def call_groq_api(user_query: str, context_text: str) -> str:
+    """Generate a response using Groq Cloud API."""
     initialize_components()
 
     if not llm_available or groq_client is None:
@@ -119,30 +129,30 @@ def call_groq_api(user_query: str, context_text: str) -> str:
                     "content": f"Context:\n{context_text}\n\nQuestion: {user_query}",
                 },
             ],
-            temperature=0.2,
-            max_tokens=256,
+            temperature=0.3,
+            max_tokens=512,
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
         error_msg = str(e)
+        # Check for API key issues
         if "401" in error_msg or "invalid_api_key" in error_msg.lower() or "Invalid API Key" in error_msg:
             return "API key not configured. Add it or Please contact admin."
         return f"Error: Groq API failed. Details: {error_msg}"
 
 
+# ---------------- MAIN PIPELINE ----------------
 def generate_answer(question: str, use_llm: bool = True):
-    cache_key = _get_cache_key(question)
-    
-    if cache_key in _response_cache and use_llm:
-        return _response_cache[cache_key]
-
+    """
+    Retrieve context from ChromaDB and generate answer using Groq API.
+    If use_llm=False, only returns retrieved text.
+    """
     retrieved = retrieve(question)
     if not retrieved:
-        result = {
+        return {
             "answer": "I could not find relevant information in ISMT resources.",
             "sources": [],
         }
-        return result
 
     sources = [
         f'<a href="{r["meta"].get("url")}" target="_blank">{r["meta"].get("url")}</a>'
@@ -151,33 +161,24 @@ def generate_answer(question: str, use_llm: bool = True):
     ]
 
     if not use_llm:
+        # Return raw retrieval results
         context = "\n".join(
             [
                 f"[{r['meta'].get('url', 'unknown')}] {r['text'][:200]}..."
                 for r in retrieved[:TOP_K]
             ]
         )
-        result = {
+        return {
             "answer": f"📋 Retrieved information:\n\n{context}\n\n(LLM disabled)",
             "sources": sources,
         }
-        if use_llm:
-            if len(_response_cache) >= MAX_CACHE_SIZE:
-                _response_cache.pop(next(iter(_response_cache)))
-            _response_cache[cache_key] = result
-        return result
 
     context_text = build_prompt(question, retrieved)
     answer = call_groq_api(question, context_text)
-    result = {"answer": answer, "sources": sources}
-    
-    if len(_response_cache) >= MAX_CACHE_SIZE:
-        _response_cache.pop(next(iter(_response_cache)))
-    _response_cache[cache_key] = result
-    
-    return result
+    return {"answer": answer, "sources": sources}
 
 
+# ---------------- CLI TEST ----------------
 if __name__ == "__main__":
     print("[OK] ISMT College RAG Chatbot Ready!\n")
     while True:
