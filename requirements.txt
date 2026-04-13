@@ -1,8 +1,7 @@
 gunicorn
 flask
 chromadb
-# uncomment sentence-transformers if you run this project locally
-# sentence-transformers
+sentence-transformers
 tqdm
 requests
 beautifulsoup4

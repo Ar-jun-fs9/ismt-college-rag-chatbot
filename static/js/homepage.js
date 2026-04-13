@@ -168,3 +168,8 @@ form.addEventListener("submit", async (e) => {
     setLoading(false);
   }
 });
+
+// Periodic health check to prevent cold start
+setInterval(() => {
+  fetch("/health", { method: "GET" }).catch(() => {});
+}, 60000); // Ping every 60 seconds
