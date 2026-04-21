@@ -1,11 +1,33 @@
+
+<div align="center">
+
+# 🎓 ISMT College RAG Chatbot
+
+**A Retrieval-Augmented Generation (RAG) chatbot system for ISMT College powered by Groq Cloud API and LLaMA-3.1-8B-Instant — with clickable source links for verified answers.**
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-Web%20Framework-green.svg)](https://flask.palletsprojects.com)
+[![Groq Cloud LLM](https://img.shields.io/badge/Groq%20Cloud%20LLM-llama--3.1--8b--instant-orange.svg)](https://console.groq.com)
+[![ChromaDB](https://img.shields.io/badge/VectorDB-ChromaDB-purple.svg)](https://docs.trychroma.com)
+[![Embedding Model](https://img.shields.io/badge/Embedding--Model-all--MiniLM--L6--v2-lightgrey.svg)](https://www.sbert.net/docs/pretrained_models.html#sentence-transformersall-minilm-l6-v2)
+
+_Built for lightning-fast and accurate answers about ISMT College — with clickable, verified source citations.  
+(To view the sources, uncomment the citation code in `homepage.js`.)_
+
+🌐 <a href="https://ismt-college-rag-chatbot-production.up.railway.app/" target="_blank">
+Live Demo
+</a>
+
+![Homepage](assets/ismt_homepage.png)
+![chatbot ](assets/ismt_chatbot.png)
+
+</div>
+
 <div align="center">
 
 ⚠️ <strong>IMPORTANT DEPLOYMENT & LOCAL SETUP NOTICE</strong><br>
 This project contains <strong>two versions of the embedding setup inside <code>rag_backend.py</code></strong>.<br><br>
 
-🌐 <a href="https://ismt-college-rag-chatbot-production.up.railway.app/" target="_blank">
-Live Demo
-</a>
 
 </div>
 
@@ -61,25 +83,6 @@ Live Demo
  ```
 
  This ensures the chatbot always reflects the **most current ISMT College content**.
-
-</div>
-<div align="center">
-
-# 🎓 ISMT College RAG Chatbot
-
-**A Retrieval-Augmented Generation (RAG) chatbot system for ISMT College powered by Groq Cloud API and LLaMA-3.1-8B-Instant — with clickable source links for verified answers.**
-
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
-[![Flask](https://img.shields.io/badge/Flask-Web%20Framework-green.svg)](https://flask.palletsprojects.com)
-[![Groq Cloud LLM](https://img.shields.io/badge/Groq%20Cloud%20LLM-llama--3.1--8b--instant-orange.svg)](https://console.groq.com)
-[![ChromaDB](https://img.shields.io/badge/VectorDB-ChromaDB-purple.svg)](https://docs.trychroma.com)
-[![Embedding Model](https://img.shields.io/badge/Embedding--Model-all--MiniLM--L6--v2-lightgrey.svg)](https://www.sbert.net/docs/pretrained_models.html#sentence-transformersall-minilm-l6-v2)
-
-_Built for lightning-fast and accurate answers about ISMT College — with clickable, verified source citations.  
-(To view the sources, uncomment the citation code in `homepage.js`.)_
-
-![Homepage](assets/ismt_homepage.png)
-![chatbot ](assets/ismt_chatbot.png)
 
 </div>
 
