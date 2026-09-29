@@ -15,7 +15,7 @@ from openai import OpenAI
 # Load environment variables
 load_dotenv()
 
-# ---------------- CONFIG ----------------
+#  CONFIG 
 PERSIST_DIR = "chroma_db"
 CHROMA_COLLECTION = "ismt_docs"
 TOP_K = 2  # Number of documents to retrieve
@@ -23,9 +23,9 @@ TOP_K = 2  # Number of documents to retrieve
 # Groq API Configuration
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
-GROQ_MODEL = "llama-3.1-8b-instant"
+GROQ_MODEL = "openai/gpt-oss-20b"
 
-# ---------------- GLOBALS ----------------
+#  GLOBALS 
 client = None
 collection = None
 groq_client = None
@@ -33,7 +33,7 @@ _components_initialized = False
 llm_available = False
 
 
-# ---------------- INITIALIZATION ----------------
+#  INITIALIZATION 
 def initialize_components():
     """Initialize ChromaDB and Groq API client."""
     global client, collection, groq_client, _components_initialized, llm_available
@@ -72,7 +72,7 @@ def initialize_components():
     _components_initialized = True
 
 
-# ---------------- RETRIEVAL ----------------
+#  RETRIEVAL 
 def retrieve(query: str, top_k: int = TOP_K):
     """
     Retrieve top-k relevant documents from ChromaDB.
@@ -91,7 +91,7 @@ def retrieve(query: str, top_k: int = TOP_K):
     return [{"text": d, "meta": m} for d, m in zip(docs, metas)]
 
 
-# ---------------- PROMPT BUILDER ----------------
+#  PROMPT BUILDER 
 def build_prompt(question, retrieved):
     """Build prompt text with retrieved context for Groq API."""
     context_blocks = []
@@ -105,7 +105,7 @@ def build_prompt(question, retrieved):
     return "\n".join(context_blocks)
 
 
-# ---------------- GROQ API CALL ----------------
+#  GROQ API CALL 
 def call_groq_api(user_query: str, context_text: str) -> str:
     """Generate a response using Groq Cloud API."""
     initialize_components()
@@ -141,7 +141,7 @@ def call_groq_api(user_query: str, context_text: str) -> str:
         return f"Error: Groq API failed. Details: {error_msg}"
 
 
-# ---------------- MAIN PIPELINE ----------------
+#  MAIN PIPELINE 
 def generate_answer(question: str, use_llm: bool = True):
     """
     Retrieve context from ChromaDB and generate answer using Groq API.
@@ -178,7 +178,7 @@ def generate_answer(question: str, use_llm: bool = True):
     return {"answer": answer, "sources": sources}
 
 
-# ---------------- CLI TEST ----------------
+#  CLI TEST 
 if __name__ == "__main__":
     print("[OK] ISMT College RAG Chatbot Ready!\n")
     while True:
@@ -373,7 +373,7 @@ if __name__ == "__main__":
 #     return {"answer": answer, "sources": sources}
 
 
-# # ---------------- CLI TEST ----------------
+# #  CLI TEST 
 # if __name__ == "__main__":
 #     print("[OK] ISMT College RAG Chatbot Ready!\n")
 #     while True:
